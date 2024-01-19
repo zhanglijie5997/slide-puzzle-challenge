@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:slide_puzzle/level_transition/cao_3d_studio.dart';
 
 import 'level_transition/level_end_transition.dart';
 import 'data/board_config.dart';
@@ -64,40 +65,41 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: BoardConfig(
         unitSize: unitSize,
         hideTexts: _hideTexts,
-        child: Stack(
-          children: [
-            // Background: a custom painter wrapped in a repaint boundary
-            // because the rest of the app usually updates at different times.
-            RepaintBoundary(
-              child: BackdropPaint(
-                controller: _backdropController,
-              ),
-            ),
-            if (_currentLevel == 0)
-              TutorialDialog(
-                onDismiss: (bool hideTexts) {
-                  setState(() => _hideTexts = hideTexts);
-                  _advanceToNextLevel();
-                },
-              ),
-            if (_currentLevel > 0)
-              Center(
-                child: ScaleTransition(
-                  scale: CurveTween(curve: Curves.easeOut)
-                      .animate(_levelBeginController),
-                  child: LevelEndTransition(
-                    animation: _levelEndController,
-                    child: PuzzleLevel(
-                      // A single level of the puzzle.
-                      key: ValueKey(_currentLevel),
-                      level: _currentLevel,
-                      onWin: _onLevelCompleted,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
+        child: Cao3DStudio()
+        // Stack(
+        //   children: [
+        //     // Background: a custom painter wrapped in a repaint boundary
+        //     // because the rest of the app usually updates at different times.
+        //     RepaintBoundary(
+        //       child: BackdropPaint(
+        //         controller: _backdropController,
+        //       ),
+        //     ),
+        //     if (_currentLevel == 0)
+        //       TutorialDialog(
+        //         onDismiss: (bool hideTexts) {
+        //           setState(() => _hideTexts = hideTexts);
+        //           _advanceToNextLevel();
+        //         },
+        //       ),
+        //     if (_currentLevel > 0)
+        //       Center(
+        //         child: ScaleTransition(
+        //           scale: CurveTween(curve: Curves.easeOut)
+        //               .animate(_levelBeginController),
+        //           child: LevelEndTransition(
+        //             animation: _levelEndController,
+        //             child: PuzzleLevel(
+        //               // A single level of the puzzle.
+        //               key: ValueKey(_currentLevel),
+        //               level: _currentLevel,
+        //               onWin: _onLevelCompleted,
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //   ],
+        // ),
       ),
     );
   }
